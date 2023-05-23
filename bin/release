@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+VERSION=$1
+
+if [ -z $1 ] ; then
+  echo "Please provide version number: bin/release 1.0.0" && exit 1;
+fi
+
+printf "module Standard\n  module Minitest\n    VERSION = \"$VERSION\"\n  end\nend\n" > ./lib/standard/minitest/version.rb
+bundle
+npm install
+npm build
+git add Gemfile.lock lib/standard/minitest/version.rb
+git commit -m "Bump version for $VERSION"
+git push
+git tag v$VERSION
+git push --tags
+gem build standard-minitest.gemspec
+gem push "standard-minitest-$VERSION.gem"
