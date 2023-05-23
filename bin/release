@@ -8,8 +8,6 @@ fi
 
 printf "module Standard\n  module Minitest\n    VERSION = \"$VERSION\"\n  end\nend\n" > ./lib/standard/minitest/version.rb
 bundle
-npm install
-npm build
 git add Gemfile.lock lib/standard/minitest/version.rb
 git commit -m "Bump version for $VERSION"
 git push
